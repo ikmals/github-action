@@ -1,4 +1,4 @@
 #!/bin/bash
 
-ls -la
+jq --raw-output . "$GITHUB_EVENT_PATH"
 python /validate.py
