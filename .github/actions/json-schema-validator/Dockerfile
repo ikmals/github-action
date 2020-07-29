@@ -1,7 +1,6 @@
-FROM python:3
+FROM python:alpine
 
-RUN apk add --no-cache \
-    jq
+RUN apk add --update --no-cache curl jq
 
 RUN pip install jsonschema requests
 
