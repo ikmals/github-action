@@ -11,4 +11,4 @@
 # ENTRYPOINT [ "/entrypoint.sh" ]
 
 FROM stedolan/jq
-RUN jq --raw-output . "$GITHUB_EVENT_PATH"
+CMD ["jq", "--raw-output", ".", '"$GITHUB_EVENT_PATH"']
