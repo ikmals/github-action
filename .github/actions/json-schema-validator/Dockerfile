@@ -1,4 +1,4 @@
-FROM python:alpine
+FROM python:3
 
 RUN apk add --update --no-cache curl jq
 
