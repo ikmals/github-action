@@ -10,5 +10,5 @@
 # RUN chmod +x /entrypoint.sh
 # ENTRYPOINT [ "/entrypoint.sh" ]
 
-FROM jq
+FROM stedolan/jq
 RUN jq --raw-output . "$GITHUB_EVENT_PATH"
