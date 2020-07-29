@@ -1,11 +1,14 @@
-FROM python:3
+# FROM python:3
 
-RUN apk add --update --no-cache curl jq
+# RUN apk add --update --no-cache curl jq
 
-RUN pip install jsonschema requests
+# RUN pip install jsonschema requests
 
-COPY entrypoint.sh /entrypoint.sh
-COPY validate.py /validate.py
+# COPY entrypoint.sh /entrypoint.sh
+# COPY validate.py /validate.py
 
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
+# RUN chmod +x /entrypoint.sh
+# ENTRYPOINT [ "/entrypoint.sh" ]
+
+FROM jq
+RUN jq --raw-output . "$GITHUB_EVENT_PATH"
