@@ -1,14 +1,43 @@
-# FROM python:3
+FROM python:3.7-slim-stretch
 
-# RUN apk add --update --no-cache curl jq
+ARG buildDeps="freetds-dev \
+  libkrb5-dev \
+  libsasl2-dev \
+  libssl-dev \
+  libffi-dev \
+  libpq-dev \
+  git \
+"
 
-# RUN pip install jsonschema requests
+RUN set -ex \
+    && apt-get update -yqq \
+    && mkdir -p /usr/share/man/man1 \
+    && apt-get install -yqq --no-install-recommends \
+        $buildDeps \
+        ca-certificates \
+        gnupg \
+        freetds-bin \
+        build-essential \
+        default-libmysqlclient-dev \
+        apt-utils \
+        curl \
+        rsync \
+        netcat \
+        locales \
+        file \
+        openjdk-8-jre-headless \
+        openjdk-8-jdk-headless \
+        maven \
+        autoconf \
+        automake \
+        libtool \
+        jq \
+        python-dev
 
-# COPY entrypoint.sh /entrypoint.sh
-# COPY validate.py /validate.py
+RUN pip install jsonschema requests
 
-# RUN chmod +x /entrypoint.sh
-# ENTRYPOINT [ "/entrypoint.sh" ]
+COPY entrypoint.sh /entrypoint.sh
+COPY validate.py /validate.py
 
-FROM stedolan/jq
-CMD ["jq", "--raw-output", ".", '"$GITHUB_EVENT_PATH"']
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
