@@ -1,8 +1,9 @@
 FROM python:3
-WORKDIR /usr/src/app
 
 RUN pip install jsonschema requests
 
-COPY . .
-# CMD [ "python", "./validate.py" ]
-CMD [ "ls", "-la" ]
+COPY entrypoint.sh /entrypoint.sh
+COPY validate.py /validate.py
+
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
