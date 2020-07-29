@@ -14,4 +14,4 @@ jobs:
       uses: ./.github/actions/json-schema-validator
       with:
         json_schema: "./schemas/bigquery_schema.schema"
-        json_file: "bigquery_schema.json"
+        json_files: "bigquery_schema.json"
