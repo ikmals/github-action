@@ -2,5 +2,5 @@ FROM python:3
 
 RUN pip install jsonschema requests
 
-COPY validate.py /
+COPY . .
 CMD [ "python", "./validate.py" ]
