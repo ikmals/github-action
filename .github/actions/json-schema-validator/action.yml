@@ -1,0 +1,12 @@
+name: JSON Schema Validator
+description: Validate JSON files against specified JSON schema
+runs: 
+  using: docker
+  image: Dockerfile
+inputs:
+  json_schema:
+    description: Path to the JSON Schema to validate with
+    required: true
+  json_files:
+    description: Path to JSON files
+    required: true

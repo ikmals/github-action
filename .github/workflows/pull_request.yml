@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    # - name: Validate BigQuery schema
+    - name: Validate BigQuery schema
     #   uses: ikmals/json-schema-validator
-    #   env:
-    #     SCHEMA_DIRECTORY: "./schemas"
-    #     JSON_SCHEMA: "bigquery_schema.schema"
-    #     JSON_FILE: "bigquery_schema.json"
+      uses: ./.github/actions/json-schema-validator
+      with:
+        json_schema: "./schemas/bigquery_schema.schema"
+        json_file: "bigquery_schema.json"
