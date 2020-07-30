@@ -23,7 +23,7 @@ def query(url, data=None):
     else:
         response = requests.get(url, headers=headers)
 
-    if response.status_code == 200:
+    if response.status_code >= 200 and response.status_code < 300:
         return response.json()
     else:
         raise Exception('Status code {}: {}'.format(response.status_code, url))
