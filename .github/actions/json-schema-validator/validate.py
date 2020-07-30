@@ -35,8 +35,8 @@ def request(verb, url, data=None):
         raise Exception('Status code {}: {}'.format(response.status_code, url))
 
 
-def validate_file(json_schema, json_path_pattern, file_path):
-    pattern = re.compile(json_path_pattern)
+def validate_file(json_schema, path_pattern, file_path):
+    pattern = re.compile(path_pattern)
     if pattern.match(file_path):
         print('validating {}'.format(file_path))
         schema = json_from_file(json_schema)
@@ -44,19 +44,15 @@ def validate_file(json_schema, json_path_pattern, file_path):
 
         validator = Draft7Validator(schema)
         for error in sorted(validator.iter_errors(instance), key=str):
-            print(error)
             validation_error = {}
             validation_error['path'] = file_path
-            validation_error['message'] = error.message
-            validation_error['validator'] = error.validator
-            validation_error['validator_value'] = error.validator_value
+            validation_error['message'] = error
 
             validation_errors.append(validation_error)
 
         return validation_errors
     else:
-        print('{} doesn\'t match pattern {}'.format(
-            file_path, json_path_pattern))
+        print('{} doesn\'t match pattern {}'.format(file_path, path_pattern))
         return []
 
 
@@ -87,12 +83,9 @@ def create_comment(errors):
     for file in errors:
         for error in file:
             path = error['path']
-            message = error['message']
-            validator = error['validator']
-            validator_value = error['validator_value']
+            err = error['error']
 
-            formatted = MESSAGE.format(
-                path=path, message=message, validator=validator, validator_value=validator_value)
+            formatted = MESSAGE.format(path=path, error=err)
             formatted_errors.append(formatted)
 
     joined_errors = '\r\n\r\n'.join(formatted_errors)
@@ -111,10 +104,10 @@ BASE = 'https://api.github.com'
 PR_FILES = BASE + '/repos/{repo}/pulls/{pull_number}/files'
 ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
-MESSAGE = '''**JSON Schema validation failed for `{path}`.**
-            **Message** : `{message}`
-            **Validator** : `{validator}`
-            **Validator Rule** : `{validator_value}`'''
+MESSAGE = '''**JSON Schema validation failed for `{path}`**
+            ```
+            {error}
+            ```'''
 
 event = json_from_file(event_path)
 pull_number = jq.compile('.pull_request.number').input(event).first()
