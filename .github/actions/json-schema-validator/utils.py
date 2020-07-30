@@ -6,6 +6,27 @@ import jq
 import requests
 from jsonschema import Draft7Validator
 
+BASE = 'https://api.github.com'
+ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
+DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
+
+COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
+COMMENT = '''
+---
+**Validator:** `{validator}`
+**Validator value:**
+```
+{validator_value}
+```
+**Message:**
+```
+{message}
+```
+**Instance:**
+```
+{instance}
+```'''
+
 
 def request(verb, url, data=None):
     headers = {'Authorization': 'Bearer {}'.format(os.getenv('INPUT_TOKEN'))}

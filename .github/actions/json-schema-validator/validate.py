@@ -4,8 +4,8 @@ from distutils.util import strtobool
 
 import jq
 
-from utils import (create_comment, delete_comments, json_from_file, request,
-                   validate_file)
+from utils import (BASE, create_comment, delete_comments, json_from_file,
+                   request, validate_file)
 
 json_schema = os.getenv('INPUT_JSON_SCHEMA')
 json_path_pattern = os.getenv('INPUT_JSON_PATH_PATTERN')
@@ -15,27 +15,7 @@ clear_comments = strtobool(os.getenv('INPUT_CLEAR_COMMENTS'))
 event_path = os.getenv('GITHUB_EVENT_PATH')
 repo = os.getenv('GITHUB_REPOSITORY')
 
-BASE = 'https://api.github.com'
 PR_FILES = BASE + '/repos/{repo}/pulls/{pull_number}/files'
-ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
-DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
-
-COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
-COMMENT = '''
----
-**Validator:** `{validator}`
-**Validator value:**
-```
-{validator_value}
-```
-**Message:**
-```
-{message}
-```
-**Instance:**
-```
-{instance}
-```'''
 
 event = json_from_file(event_path)
 pull_number = jq.compile('.pull_request.number').input(event).first()
