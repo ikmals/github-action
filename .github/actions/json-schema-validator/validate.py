@@ -81,10 +81,10 @@ def create_comment(validation_errors):
         formatted_errors.append(header)
 
         for error in errors:
-            message = error['message']
-            validator = error['validator']
-            validator_value = error['validator_value']
-            instance = error['instance']
+            message = error.message
+            validator = error.validator
+            validator_value = error.validator_value
+            instance = error.instance
 
             formatted = COMMENT.format(
                 message=message,
