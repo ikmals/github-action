@@ -1,0 +1,38 @@
+[
+    {
+        "name": "id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Resource ID"
+    },
+    {
+        "name": "status",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Resource status"
+    },
+    {
+        "name": "value",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Resource value"
+    },
+    {
+        "name": "created_at",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Resource creation time"
+    },
+    {
+        "name": "updated_at",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Resource last update time"
+    },
+    {
+        "name": "metadata",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Resource metadata"
+    }
+]
