@@ -19,9 +19,6 @@ def query(headers, url, data=None):
         response = requests.post(url, json=data, headers=headers)
     else:
         response = requests.get(url, headers=headers)
-        # print('headers')
-        # print(headers)
-        # response = requests.get(url)
 
     if response.status_code == 200:
         return response.json()

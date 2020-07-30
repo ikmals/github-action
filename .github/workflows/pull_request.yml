@@ -14,6 +14,6 @@ jobs:
         uses: ./.github/actions/json-schema-validator
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          json_schema: "./schemas/bigquery_schema.schema"
-          json_path_pattern: "bigquery_schema.json"
+          json_schema: ./schemas/bigquery_schema.schema
+          json_path_pattern: .*bigquery_schema.json$
           send_comment: true

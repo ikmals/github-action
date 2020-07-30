@@ -3,7 +3,7 @@
         "name": "id",
         "type": "INTEGER",
         "mode": "REQUIRED",
-        "description": "Resource ID"
+        "description": "Resource id"
     },
     {
         "name": "status",
