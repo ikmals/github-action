@@ -21,7 +21,7 @@ def query(headers, url, data=None):
     if response.status_code == 200:
         return response.json()
     else:
-        raise Exception(response.status_code + ':' + query)
+        raise Exception(str(response.status_code) + ':' + query)
 
 
 def validate_file(json_schema, json_path_pattern, file_path):
