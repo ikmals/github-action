@@ -32,7 +32,6 @@
     {
         "name": "metadata",
         "type": "STRING",
-        "mode": "REQUIRED",
-        "description": "Resource metadata"
+        "mode": "REQUIRED"
     }
 ]

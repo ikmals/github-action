@@ -26,13 +26,6 @@
     {
         "name": "updated_at",
         "type": "TIMESTAMP",
-        "mode": "REQUIRED",
-        "description": "Resource last update time"
-    },
-    {
-        "name": "metadata",
-        "type": "STRING",
-        "mode": "REQUIRED",
-        "description": "Resource metadata"
+        "mode": "REQUIRED"
     }
 ]
