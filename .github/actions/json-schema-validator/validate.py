@@ -44,4 +44,4 @@ if len(errors):
     for error in errors:
         print(error)
 
-    # raise Exception('Fail validation')
+    raise Exception('Fail validation')
