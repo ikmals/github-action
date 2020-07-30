@@ -1,6 +1,6 @@
 FROM python:3.7-slim-stretch
 
-RUN pip install jsonschema requests
+RUN pip install jsonschema requests jq
 
 COPY entrypoint.sh /entrypoint.sh
 COPY validate.py /validate.py
