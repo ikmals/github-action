@@ -59,18 +59,19 @@ def clear_comments():
 
 def send_comment(errors):
     formatted_errors = []
-    for error in errors:
-        path = error['path']
-        message = error['message']
-        validator = error['validator']
-        validator_value = error['validator_value']
+    for file in errors:
+        for error in file:
+            path = error['path']
+            message = error['message']
+            validator = error['validator']
+            validator_value = error['validator_value']
 
-        formatted = MESSAGE.format(
-            path=path, message=message, validator=validator, validator_value=validator_value)
-        formatted_errors.append(formatted)
+            formatted = MESSAGE.format(
+                path=path, message=message, validator=validator, validator_value=validator_value)
+            formatted_errors.append(formatted)
 
     joined_errors = '\r\n\r\n'.join(formatted_errors)
-    
+
     comment_url = ISSUE_COMMENTS.format(repo=repo, issue_number=pull_number)
     body = {'body': joined_errors}
     res = query(comment_url, body)
