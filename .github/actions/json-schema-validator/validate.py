@@ -88,14 +88,14 @@ def create_comment(validation_errors):
             instance = error.instance
 
             formatted = COMMENT.format(
-                message=message,
+                message=pprint.pformat(message, width=72),
                 validator=validator,
-                validator_value=pprint.pformat(validator_value, width=72),
-                instance=pprint.pformat(instance, width=72)
+                validator_value=json.dumps(validator_value),
+                instance=json.dumps(instance)
             )
             formatted_errors.append(formatted)
 
-    joined_errors = '\r\n\r\n'.join(formatted_errors)
+    joined_errors = '---\r\n\r\n'.join(formatted_errors)
 
     comment_url = ISSUE_COMMENTS.format(repo=repo, issue_number=pull_number)
     body = {'body': joined_errors}
