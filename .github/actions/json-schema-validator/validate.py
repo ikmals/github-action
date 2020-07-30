@@ -40,7 +40,7 @@ with open(event_path) as f:
     event = json.load(f)
 
 changed_files_url = event['pull_request']['_links']['self']['href'] + '/files'
-headers = {"Authorization": "token {}".format(token)}
+headers = {"Authorization": "Bearer {}".format(token)}
 
 errors = []
 changed_files = query(headers, changed_files_url)
