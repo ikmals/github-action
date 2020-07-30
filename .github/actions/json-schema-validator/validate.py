@@ -44,6 +44,7 @@ def validate_file(json_schema, json_path_pattern, file_path):
 
         validator = Draft7Validator(schema)
         for error in sorted(validator.iter_errors(instance), key=str):
+            print(error)
             validation_error = {}
             validation_error['path'] = file_path
             validation_error['message'] = error.message
