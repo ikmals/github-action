@@ -1,5 +1,6 @@
 import json
 import os
+import pprint
 import re
 from distutils.util import strtobool
 
@@ -89,8 +90,8 @@ def create_comment(validation_errors):
             formatted = COMMENT.format(
                 message=message,
                 validator=validator,
-                validator_value=validator_value,
-                instance=instance
+                validator_value=pprint.pformat(validator_value, width=72),
+                instance=pprint.pformat(instance, width=72)
             )
             formatted_errors.append(formatted)
 
@@ -112,10 +113,16 @@ ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
 
 COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
-COMMENT = '''**Message** : `{message}`
-**Validator** : `{validator}`
-**Validator value** : `{validator_value}`
-**Instance** :
+COMMENT = '''**Validator:** `{validator}`
+**Validator value:**
+```
+{validator_value}
+```
+**Message:**
+```
+{message}
+```
+**Instance:**
 ```
 {instance}
 ```'''
