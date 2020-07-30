@@ -55,8 +55,8 @@ def validate_file(json_schema, json_path_pattern, file_path):
         return []
 
 def delete_comment(comment_id):
-    comment_url = ISSUE_COMMENTS.format(repo=repo, issue_number=pull_number)
-    request('delete', '{}/{}'.format(comment_url, comment_id))
+    delete_comment_url = DELETE_ISSUE_COMMENTS.format(repo=repo, comment_id=comment_id)
+    request('delete', delete_comment_url)
 
 def clear_comments():
     bot = 'github-actions[bot]'
@@ -101,6 +101,7 @@ def json_from_file(file_path):
 BASE = 'https://api.github.com'
 PR_FILES = BASE + '/repos/{repo}/pulls/{pull_number}/files'
 ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
+DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
 MESSAGE = '''**JSON Schema validation failed for `{path}`.**
             **Message** : `{message}`
             **Validator** : `{validator}`
