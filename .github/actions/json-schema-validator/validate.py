@@ -83,8 +83,8 @@ def json_from_file(file_path):
 
 
 BASE = 'https://api.github.com'
-PR_FILES = BASE + 'repos/{repo}/pulls/{pull_number}/files'
-ISSUE_COMMENTS = BASE + 'repos/{repo}/issues/{issue_number}/comments'
+PR_FILES = BASE + '/repos/{repo}/pulls/{pull_number}/files'
+ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 MESSAGE = '''**JSON Schema validation failed for `{path}`.**
             **Message** : `{message}`
             **Validator** : `{validator}`
