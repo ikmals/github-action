@@ -9,7 +9,7 @@ event_path = os.getenv('GITHUB_EVENT_PATH')
 token = os.getenv('GITHUB_TOKEN')
 
 
-def query(headers, url, data):
+def query(headers, url, data=None):
     if data is not None:
         response = requests.post(url, data)
     else:
