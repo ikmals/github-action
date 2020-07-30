@@ -95,7 +95,7 @@ def create_comment(validation_errors):
             )
             formatted_errors.append(formatted)
 
-    joined_errors = '---\r\n\r\n'.join(formatted_errors)
+    joined_errors = '\r\n\r\n'.join(formatted_errors)
 
     comment_url = ISSUE_COMMENTS.format(repo=repo, issue_number=pull_number)
     body = {'body': joined_errors}
@@ -113,7 +113,8 @@ ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
 
 COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
-COMMENT = '''**Validator:** `{validator}`
+COMMENT = '''---
+**Validator:** `{validator}`
 **Validator value:**
 ```
 {validator_value}
