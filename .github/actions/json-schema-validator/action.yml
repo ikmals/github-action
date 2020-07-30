@@ -4,6 +4,9 @@ runs:
   using: docker
   image: Dockerfile
 inputs:
+  token:
+    description: GitHub token to access pull request details
+    required: true
   json_schema:
     description: Path to the JSON Schema to validate with
     required: true

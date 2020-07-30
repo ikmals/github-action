@@ -9,9 +9,9 @@ json_schema = os.getenv('INPUT_JSON_SCHEMA')
 json_path_pattern = os.getenv('INPUT_JSON_PATH_PATTERN')
 send_comment = os.getenv('INPUT_SEND_COMMENT')
 clear_comments = os.getenv('INPUT_CLEAR_COMMENTS')
+token = os.getenv('INPUT_TOKEN')
 
 event_path = os.getenv('GITHUB_EVENT_PATH')
-token = os.getenv('GITHUB_TOKEN')
 
 
 def query(headers, url, data=None):
@@ -32,6 +32,7 @@ def query(headers, url, data=None):
 def validate_file(json_schema, json_path_pattern, file_path):
     pattern = re.compile(json_path_pattern)
     if pattern.match(file_path):
+        print('validating')
         schema = json_from_file(json_schema)
         validator = Draft7Validator(schema)
         for error in sorted(validator.iter_errors(instance), key=str):
@@ -44,6 +45,7 @@ def validate_file(json_schema, json_path_pattern, file_path):
 
         return validation_errors
     else:
+        print('{} doesn\'t match pattern {}'.format(file_path, json_path_pattern))
         return []
 
 
