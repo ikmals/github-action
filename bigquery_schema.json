@@ -3,7 +3,7 @@
         "name": "id",
         "type": "INTEGER",
         "mode": "REQUIRED",
-        "description": "Resource id"
+        "description": "Resource ID"
     },
     {
         "name": "status",
@@ -26,6 +26,13 @@
     {
         "name": "updated_at",
         "type": "TIMESTAMP",
-        "mode": "REQUIRED"
+        "mode": "REQUIRED",
+        "description": "Resource last update time"
+    },
+    {
+        "name": "metadata",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Resource metadata"
     }
 ]
