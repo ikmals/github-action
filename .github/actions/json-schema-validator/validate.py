@@ -102,9 +102,7 @@ ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
 
 COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
-COMMENT = '''```
-            {error}
-            ```'''
+COMMENT = '```\n{error}\n```'
 
 event = json_from_file(event_path)
 pull_number = jq.compile('.pull_request.number').input(event).first()
