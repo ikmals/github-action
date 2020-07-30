@@ -3,10 +3,9 @@ import os
 from distutils.util import strtobool
 
 import jq
-from jsonschema import Draft7Validator
 
 from utils import (create_comment, delete_comments, json_from_file, request,
-                    validate_file)
+                   validate_file)
 
 json_schema = os.getenv('INPUT_JSON_SCHEMA')
 json_path_pattern = os.getenv('INPUT_JSON_PATH_PATTERN')

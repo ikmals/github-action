@@ -4,6 +4,7 @@ import re
 
 import jq
 import requests
+from jsonschema import Draft7Validator
 
 
 def request(verb, url, data=None):
