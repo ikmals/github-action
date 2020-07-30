@@ -64,7 +64,8 @@ def delete_comment(id):
     request('delete', delete_comment_url)
 
 
-def clear_comments():
+def delete_comments():
+    print('clearing comments')
     bot = 'github-actions[bot]'
     comment_url = ISSUE_COMMENTS.format(repo=repo, issue_number=pull_number)
 
@@ -79,7 +80,8 @@ def clear_comments():
             delete_comment(comment_id)
 
 
-def send_comment(errors):
+def create_comment(errors):
+    print('sending comment')
     formatted_errors = []
     for file in errors:
         for error in file:
@@ -129,11 +131,11 @@ for pr_file in pr_files:
         errors.append(validation_errors)
 
 if clear_comments:
-    clear_comments()
+    delete_comments()
 
 if len(errors):
     if send_comment:
-        send_comment(errors)
+        create_comment(errors)
 
     for error in errors:
         print(error)
