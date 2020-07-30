@@ -81,7 +81,7 @@ def create_comment(validation_errors):
         formatted_errors.append(header)
 
         for error in errors:
-            formatted = MESSAGE.format(error=error)
+            formatted = COMMENT.format(error=error)
             formatted_errors.append(formatted)
 
     joined_errors = '\r\n\r\n'.join(formatted_errors)
