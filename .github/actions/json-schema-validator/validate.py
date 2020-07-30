@@ -24,7 +24,7 @@ def query(headers, url, data):
 with open(event_path) as f:
     event = json.load(f)
 
-changed_files_url = event['pull_requests']['_links']['self']['href'] + '/files'
+changed_files_url = event['pull_request']['_links']['self']['href'] + '/files'
 headers = {"Authorization": "token {}".format(token)}
 
 changed_files = query(headers, changed_files_url)
