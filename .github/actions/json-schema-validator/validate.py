@@ -29,8 +29,10 @@ def query(headers, url, data=None):
 def validate_file(json_schema, json_path_pattern, file_path):
     pattern = re.compile(json_path_pattern)
     if pattern.match(file_path):
-        print('validating')
+        print('validating {}'.format(file_path))
         schema = json_from_file(json_schema)
+        instance = json_from_file(file_path)
+
         validator = Draft7Validator(schema)
         for error in sorted(validator.iter_errors(instance), key=str):
             validation_error = {}
