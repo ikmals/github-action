@@ -1,7 +1,9 @@
-from jsonschema import Draft7Validator
-import requests
-import os
 import json
+import os
+import re
+
+import requests
+from jsonschema import Draft7Validator
 
 json_schema = os.getenv('INPUT_JSON_SCHEMA')
 json_path_pattern = os.getenv('INPUT_JSON_PATH_PATTERN')
@@ -17,6 +19,8 @@ def query(headers, url, data=None):
         response = requests.post(url, json=data, headers=headers)
     else:
         # response = requests.get(url, headers=headers)
+        print('headers')
+        print(headers)
         response = requests.get(url)
 
     if response.status_code == 200:
@@ -26,7 +30,21 @@ def query(headers, url, data=None):
 
 
 def validate_file(json_schema, json_path_pattern, file_path):
-    return []
+    pattern = re.compile(json_path_pattern)
+    if pattern.match(file_path):
+        schema = json_from_file(json_schema)
+        validator = Draft7Validator(schema)
+        for error in sorted(validator.iter_errors(instance), key=str):
+            validation_error = {}
+            validation_error['message'] = error.message
+            validation_error['validator'] = error.validator
+            validation_error['validator_value'] = error.validator_value
+
+            validation_errors.append(validation_error)
+
+        return validation_errors
+    else:
+        return []
 
 
 def clear_comments():
@@ -37,9 +55,12 @@ def send_comment(errors):
     return True
 
 
-with open(event_path) as f:
-    event = json.load(f)
+def json_from_file(file_path):
+    with open(file_path) as f:
+        return json.load(f)
 
+
+event = json_from_file(event_path)
 changed_files_url = event['pull_request']['_links']['self']['href'] + '/files'
 headers = {"Authorization": "Bearer {}".format(token)}
 
@@ -54,7 +75,7 @@ for changed_file in changed_files:
 
 if len(errors):
     if send_comment:
-        create_comment(errors)
+        send_comment(errors)
 
     for error in errors:
         print(error)
