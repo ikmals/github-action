@@ -113,7 +113,8 @@ ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
 
 COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
-COMMENT = '''---
+COMMENT = '''
+---
 **Validator:** `{validator}`
 **Validator value:**
 ```
