@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from distutils.util import strtobool
 
 import jq
 import requests
@@ -8,8 +9,8 @@ from jsonschema import Draft7Validator
 
 json_schema = os.getenv('INPUT_JSON_SCHEMA')
 json_path_pattern = os.getenv('INPUT_JSON_PATH_PATTERN')
-send_comment = os.getenv('INPUT_SEND_COMMENT')
-clear_comments = os.getenv('INPUT_CLEAR_COMMENTS')
+send_comment = strtobool(os.getenv('INPUT_SEND_COMMENT'))
+clear_comments = strtobool(os.getenv('INPUT_CLEAR_COMMENTS'))
 
 event_path = os.getenv('GITHUB_EVENT_PATH')
 repo = os.getenv('GITHUB_REPOSITORY')
@@ -22,11 +23,14 @@ def request(verb, url, data=None):
         'post': requests.post,
         'delete': requests.delete
     }
-    
+
     response = verb_map.get(verb)(url, json=data, headers=headers)
 
     if response.status_code >= 200 and response.status_code < 300:
-        return response.json()
+        try:
+            return response.json()
+        except Exception:
+            return response.content
     else:
         raise Exception('Status code {}: {}'.format(response.status_code, url))
 
@@ -54,9 +58,11 @@ def validate_file(json_schema, json_path_pattern, file_path):
             file_path, json_path_pattern))
         return []
 
-def delete_comment(comment_id):
-    delete_comment_url = DELETE_ISSUE_COMMENTS.format(repo=repo, comment_id=comment_id)
+
+def delete_comment(id):
+    delete_comment_url = DELETE_ISSUE_COMMENTS.format(repo=repo, comment_id=id)
     request('delete', delete_comment_url)
+
 
 def clear_comments():
     bot = 'github-actions[bot]'

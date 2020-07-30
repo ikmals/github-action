@@ -16,6 +16,8 @@ inputs:
   send_comment:
     description: Create a comment containing validation errors
     required: false
+    default: "false"
   clear_comments:
     description: Clear previous error comment(s)
     required: false
+    default: "false"
