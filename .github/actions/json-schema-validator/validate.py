@@ -43,14 +43,7 @@ def validate_file(json_schema, path_pattern, file_path):
         instance = json_from_file(file_path)
 
         validator = Draft7Validator(schema)
-        for error in sorted(validator.iter_errors(instance), key=str):
-            validation_error = {}
-            validation_error['path'] = file_path
-            validation_error['message'] = error
-
-            validation_errors.append(validation_error)
-
-        return validation_errors
+        return sorted(validator.iter_errors(instance), key=str)
     else:
         print('{} doesn\'t match pattern {}'.format(file_path, path_pattern))
         return []
@@ -77,15 +70,18 @@ def delete_comments():
             delete_comment(comment_id)
 
 
-def create_comment(errors):
+def create_comment(validation_errors):
     print('sending comment')
     formatted_errors = []
-    for file in errors:
-        for error in file:
-            path = error['path']
-            err = error['error']
+    for file in validation_errors:
+        path = file['path']
+        errors = file['errors']
 
-            formatted = MESSAGE.format(path=path, error=err)
+        header = COMMENT_HEADER.format(path=path)
+        formatted_errors.append(header)
+
+        for error in errors:
+            formatted = MESSAGE.format(error=error)
             formatted_errors.append(formatted)
 
     joined_errors = '\r\n\r\n'.join(formatted_errors)
@@ -104,8 +100,9 @@ BASE = 'https://api.github.com'
 PR_FILES = BASE + '/repos/{repo}/pulls/{pull_number}/files'
 ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
-MESSAGE = '''**JSON Schema validation failed for `{path}`**
-            ```
+
+COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
+COMMENT = '''```
             {error}
             ```'''
 
@@ -122,7 +119,10 @@ for pr_file in pr_files:
     validation_errors = validate_file(json_schema, json_path_pattern, filename)
 
     if len(validation_errors):
-        errors.append(validation_errors)
+        errors.append({
+            'path': filename,
+            'errors': validation_errors
+        })
 
 if clear_comments:
     delete_comments()
