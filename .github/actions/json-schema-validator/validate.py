@@ -81,7 +81,17 @@ def create_comment(validation_errors):
         formatted_errors.append(header)
 
         for error in errors:
-            formatted = COMMENT.format(error=error)
+            message = error['message']
+            validator = error['validator']
+            validator_value = error['validator_value']
+            instance = error['instance']
+
+            formatted = COMMENT.format(
+                message=message,
+                validator=validator,
+                validator_value=validator_value,
+                instance=instance
+            )
             formatted_errors.append(formatted)
 
     joined_errors = '\r\n\r\n'.join(formatted_errors)
@@ -102,7 +112,13 @@ ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
 DELETE_ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/comments/{comment_id}'
 
 COMMENT_HEADER = '**JSON Schema validation failed for `{path}`**'
-COMMENT = '```\n{error}\n```'
+COMMENT = '''**Message** : `{message}`
+**Validator** : `{validator}`
+**Validator value** : `{validator_value}`
+**Instance** :
+```
+{instance}
+```'''
 
 event = json_from_file(event_path)
 pull_number = jq.compile('.pull_request.number').input(event).first()

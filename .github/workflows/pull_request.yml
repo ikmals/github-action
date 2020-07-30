@@ -17,4 +17,4 @@ jobs:
           json_schema: ./schemas/bigquery_schema.schema
           json_path_pattern: .*bigquery_schema.json$
           send_comment: true
-          clear_comments: true
+          # clear_comments: true
